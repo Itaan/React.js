@@ -7,11 +7,17 @@ export function Menu() {
     <main className="menu">
       <h2>Our menu</h2>
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzaData.map((pizza) => (
-            <Pizza key={pizza.name} pizzaData={pizza} />
-          ))}
-        </ul>
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone over.
+          </p>
+          <ul className="pizzas">
+            {pizzaData.map((pizza) => (
+              <Pizza key={pizza.name} pizzaData={pizza} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>We're still working on our menu. Please come back alter :)</p>
       )}
