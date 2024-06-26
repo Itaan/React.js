@@ -143,9 +143,7 @@ function getBook(id) {
   return data.find((d) => d.id === id);
 }
 
-// Destructuring
-
-const book = getBook(3);
+const books = getBooks();
 const { title, author, genres } = book;
 
 const [primary, secondary, ...other] = genres; // rest
@@ -162,3 +160,49 @@ function getTotalReviews(book) {
   const librarything = book.reviews?.librarything?.reviewsCount ?? 0;
   return goodread + librarything;
 }
+
+const titles = books.map((book) => book.title);
+console.log(titles);
+
+const essentialData = books.map((book) => ({
+  title: book.title,
+  author: book.author,
+  reviewsCount: getTotalReviews(book),
+}));
+console.log(essentialData);
+
+const longBooks = essentialData.filter((book) => book.reviewsCount > 15500);
+console.log(longBooks);
+
+const pagesAllBooks = books.reduce((acc, book) => acc + book.pages, 0);
+console.log(pagesAllBooks);
+
+// 1) Add book object to array
+const newBook = {
+  id: 6,
+  title: "Harry Potter and the Chamber of Secrets",
+  author: "J. K. Rowling",
+};
+const booksAfterAdd = [...books, newBook];
+
+// 2) Delete book from array
+const bookAfterDelete = booksAfterAdd.filter((book) => book.id !== 3);
+console.log(bookAfterDelete);
+
+// 3) Update book object
+const booksAfterUpdate = bookAfterDelete.map((book) =>
+  book.id === 1 ? { ...book, title: "Transformers" } : book,
+);
+console.log(booksAfterUpdate);
+
+fetch("https://api.sampleapis.com/wines/reds")
+  .then((res) => res.json())
+  .then((data) => data.map((data) => console.log(data)));
+
+async function getTodos() {
+  const res = await fetch("https://api.sampleapis.com/wines/reds");
+  const data = await res.json();
+  console.log(data);
+}
+
+getTodos();
