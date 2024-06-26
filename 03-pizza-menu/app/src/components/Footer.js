@@ -4,8 +4,18 @@ export function Footer() {
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
 
-  if (isOpen) alert("We're currently open!");
-  else alert("Sorry we're closed");
-
-  return <footer>{new Date().toLocaleTimeString} We're currently open</footer>;
+  return (
+    <footer className="footer">
+      {isOpen ? (
+        <div className="order">
+          <p>We're currently open!</p>
+          <button className="btn">Order</button>
+        </div>
+      ) : (
+        <div className="order">
+          <p>Sorry we're closed</p>
+        </div>
+      )}
+    </footer>
+  );
 }
