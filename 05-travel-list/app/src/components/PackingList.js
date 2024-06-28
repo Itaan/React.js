@@ -1,11 +1,10 @@
 import { Item } from "./Item";
-import { initialItems } from "../API/Data";
 
-export function PackingList() {
+export function PackingList({ items }) {
   return (
     <div className="list">
       <ul>
-        {initialItems.map((item) => (
+        {items.map((item) => (
           <Item item={item} key={item.id} />
         ))}
       </ul>

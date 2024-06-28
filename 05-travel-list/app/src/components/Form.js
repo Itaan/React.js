@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { initialItems } from "../API/Data";
 
-export function Form() {
+export function Form({ onAddItems }) {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
 
@@ -16,6 +15,7 @@ export function Form() {
       id: Date.now(),
     };
 
+    onAddItems(newItem);
     setDescription("");
     setQuantity(1);
   }
