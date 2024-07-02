@@ -1,13 +1,10 @@
-import Search from "./Search";
 import Logo from "./Logo";
-import NumResult from "./NumResult";
 
-export default function Navbar() {
+export default function Navbar({ children }) {
   return (
     <nav className="nav-bar">
       <Logo />
-      <Search />
-      <NumResult />
+      {children}
     </nav>
   );
 }
