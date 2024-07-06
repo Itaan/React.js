@@ -40,7 +40,6 @@ export default function App() {
         }
       }
     };
-    if (fromCurrency === toCurrency) return setConverted(amount);
     fetchCurrency();
 
     return () => {
