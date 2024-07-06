@@ -6,7 +6,6 @@ export default function App() {
   const [amount, setAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
-  const [converted, setConverted] = useState("");
 
   const handleFromCurrency = (value) => {
     setFromCurrency(value);
