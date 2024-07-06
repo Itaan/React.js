@@ -10,9 +10,7 @@ import WatchedSummary from "./components/WatchedSummary";
 import MovieList from "./components/MovieList";
 import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
-
-const KEY = "6eae0191";
-const tempQuery = "interstellar";
+import MovieDetails from "./components/MovieDetails";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
@@ -20,22 +18,39 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+
+  const handleAddWatch = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.id !== id));
+  };
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
         setError("");
         const res = await axios.get(
-          `https://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=${query}`,
+          `https://www.omdbapi.com/?i=tt3896198&apikey=6eae0191&s=${query}`,
+          { cancelToken: source.token },
         );
 
-        res.data.Search
-          ? setMovies(res.data.Search)
-          : console.log("No movies found");
+        res.data.Search && setMovies(res.data.Search);
+        setError("");
       } catch (err) {
-        console.log(err);
-        setError(err.message);
+        if (err.name !== "CanceledError") setError(err.message);
       } finally {
         setIsLoading(false);
       }
@@ -46,7 +61,12 @@ export default function App() {
       setError("");
       return;
     }
+    handleCloseMovie();
     fetchMovies();
+
+    return () => {
+      source.cancel("Component unmounted");
+    };
   }, [query]);
 
   return (
@@ -58,13 +78,30 @@ export default function App() {
       <Main>
         <Box>
           {isLoading && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies} />}
+          {!isLoading && !error && (
+            <MovieList movies={movies} onSelectedMovie={handleSelectMovie} />
+          )}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
           <>
-            <WatchedSummary watched={watched} />
-            <WatchedList watched={watched} />
+            {selectedId ? (
+              <MovieDetails
+                selectedId={selectedId}
+                onCloseMovie={handleCloseMovie}
+                onAddWatched={handleAddWatch}
+                watched={watched}
+                movies={movies}
+              />
+            ) : (
+              <>
+                <WatchedSummary watched={watched} />
+                <WatchedList
+                  watched={watched}
+                  onDeleteMovie={handleDeleteWatched}
+                />
+              </>
+            )}
           </>
         </Box>
       </Main>

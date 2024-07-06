@@ -17,17 +17,19 @@ StarRating.propTypes = {
   size: PropTypes.number,
   className: PropTypes.string,
   messages: PropTypes.array,
+  ratingDefault: PropTypes.number,
 };
 
 export default function StarRating({
-  maxRating = 5,
+  maxRating = 10,
   color = "#fcc419",
   size = 48,
   className = "",
   messages = [],
   onSetRating,
+  ratingDefault = 0,
 }) {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(ratingDefault);
   const [tempRating, setTempRating] = useState(0);
 
   const handleRating = (rating) => {
