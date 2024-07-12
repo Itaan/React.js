@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useGeolocation } from "./hooks/useGeolocation";
+import "./index.css";
 
 export default function App() {
   const {

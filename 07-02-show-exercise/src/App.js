@@ -1,5 +1,5 @@
-import { useState } from "react";
-import PropType from "prop-types";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import "./index.css";
 
 export default function App() {
@@ -17,7 +17,6 @@ export default function App() {
         collapsedNumWords={20}
         expandButtonText="Show text"
         collapseButtonText="Collapse text"
-        buttonColor="#ff6622"
       >
         Space travel requires some seriously amazing technology and
         collaboration between countries, private companies, and international
@@ -37,13 +36,12 @@ export default function App() {
 }
 
 TextExpander.propTypes = {
-  children: PropType.string,
-  expanded: PropType.bool,
-  collapsedNumWords: PropType.number,
-  expandButtonText: PropType.string,
-  collapseButtonText: PropType.string,
-  buttonColor: PropType.string,
-  className: PropType.string,
+  children: PropTypes.string.isRequired,
+  expanded: PropTypes.bool,
+  collapsedNumWords: PropTypes.number,
+  expandButtonText: PropTypes.string,
+  collapseButtonText: PropTypes.string,
+  className: PropTypes.string,
 };
 
 function TextExpander({
@@ -52,7 +50,6 @@ function TextExpander({
   collapsedNumWords = 20,
   expandButtonText = "Show text",
   collapseButtonText = "Collapse text",
-  buttonColor = "#fff",
   className = "",
 }) {
   const [isOpen, setIsOpen] = useState(expanded);
@@ -69,17 +66,10 @@ function TextExpander({
     setIsOpen(!isOpen);
   };
 
-  const buttonStyle = {
-    backgroundColor: buttonColor,
-    border: "none",
-    textDecoration: "underline",
-    cursor: "pointer",
-  };
-
   return (
     <div className={className}>
       {isOpen ? children : truncateText(children, collapsedNumWords)}
-      <button style={buttonStyle} onClick={handleExpand}>
+      <button onClick={handleExpand}>
         {isOpen ? collapseButtonText : expandButtonText}
       </button>
     </div>
